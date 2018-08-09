@@ -25,10 +25,6 @@ See <a href="https://vaadin.com/license/cval-3">the website</a> for the complete
         cursor: default;
       }
 
-      :host:hover {
-        display: block !important;
-      }
-
       :host([tooltip-hidden]) [part="content"] {
         display: none !important;
       }
@@ -117,7 +113,8 @@ See <a href="https://vaadin.com/license/cval-3">the website</a> for the complete
             target.addEventListener('tap', this.hide.bind(this));
           }
 
-          this.addEventListener('mouseenter', this.hide.bind(this));
+          this.addEventListener('mouseenter', this.show.bind(this));
+          this.addEventListener('mouseleave', this.hide.bind(this));
         }
 
         _detachFromTarget() {
@@ -130,6 +127,9 @@ See <a href="https://vaadin.com/license/cval-3">the website</a> for the complete
             target.removeEventListener('blur', this.hide.bind(this));
             target.removeEventListener('tap', this.hide.bind(this));
           }
+
+          this.removeEventListener('mouseenter', this.show.bind(this));
+          this.removeEventListener('mouseleave', this.hide.bind(this));
         }
 
         _setPosition() {
@@ -201,7 +201,7 @@ See <a href="https://vaadin.com/license/cval-3">the website</a> for the complete
           }
         }
 
-        show() {
+        show(e) {
           this.tooltipHidden = false;
           this._setPosition();
         }
